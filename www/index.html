@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #map,body {width: 500px;height: 250px;} 
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+   crossorigin=""></script>
+
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+   
+    <meta name="format-detection" content="telephone=no">
+    
+    <meta http-equiv="Content-Security-Policy" content="default-src *;
+   img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+   style-src  'self' 'unsafe-inline' *">
+    <title>Hazard: The Smart Parking App</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="views">
+        <!-- Your main view, should have "view-main" class -->
+        <div class="view view-main">
+            <!-- Top Navbar-->
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="center sliding">Hazard: The Smart Parking App</div>
+                    <div class="right">
+                        <!--
+                          Right link contains only icon - additional "icon-only" class
+                          Additional "open-panel" class tells app to open panel when we click on this link
+                        -->
+                    </div>
+                </div>
+            </div>
+            <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
+            <div class="pages navbar-through toolbar-through">
+                <!-- Page, "data-page" contains page name -->
+                <div data-page="index" class="page">
+                    <!-- Scrollable page content -->
+                    <div class="page-content">
+                        <div class="content-block">
+                            <h3>Step 1:</h3>
+                            <p>Enable Location Services by accessing Settings>Privacy>Location Services</p>
+                            <h3>Step 2:</h3>
+                            <p>Upload an image of damage done to your vehicle along with your name and we'll take care of the rest. (Dont worry our data is securely stored on a Google Cloud Server)</p>
+                            <h3>Upload your picture along with your name:</h3></p>
+                            <!-- Link to another page -->
+                            <form method = "POST" action>
+                            Input your name:<input type="text" name="name"><br><br>
+                            <input type="file" accept="image/*" name = "image"capture>
+                                <!---<input type="file" name="image" accept="image/*" capture="environment">-->
+                            <input id="latt" class="form-control" placeholder="Lat">
+                            <input id="long" class="form-control" placeholder="Long">
+                            <input type="submit" value="Submit">
+                            </form>
+                            <a href="about.html">About app</a>
+
+
+                            <div id="map"></div>
+    <script>
+      var map = L.map('map').setView([44.0521, -123.0868], 13);
+      L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=QorA6zaagu6D3sopnhQ9',{
+        attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
+      }).addTo(map);
+
+    map.locate({setView: true, maxZoom: 45});
+
+    function onLocationFound(e) {
+    L.marker(e.latlng).addTo(map);
+    var latitude = (e.latlng.lat);
+    var longitude=(e.latlng.lng);
+    document.getElementById("latt").value = latitude;
+    document.getElementById("long").value = longitude;
+    //console.log(document.getElementById('latt').value)
+    }
+
+    map.on('locationfound', onLocationFound);
+
+    function onLocationError(e) {
+    alert(e.message);
+}
+
+map.on('locationerror', onLocationError);
+    </script>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/my-app.js"></script>
+</body>
+
+</html>
